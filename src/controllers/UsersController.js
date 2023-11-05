@@ -22,10 +22,10 @@ class UsersController{
 
   async update (request, response){
     const {name, email, password, old_password} = request.body;
-    const {id} = request.params
+    const user_id = request.user.id;
 
     const database = await sqliteConnection()
-    const user = await database.get("SELECT * FROM users WHERE (id) = (?)", [id])
+    const user = await database.get("SELECT * FROM users WHERE (id) = (?)", [user_id])
 
     if (!user){
       throw new AppError("usuário não encontrado.")
@@ -41,18 +41,27 @@ class UsersController{
     user.name = name ?? user.name;
     user.email = email ?? user.email;
 
+
+
     if (password && !old_password){
       throw new AppError ("Você não informou a senha atual")
     }
+    
+    
+    if(password || old_password){
+      const checkedPassword = await compare(old_password, user.password);
+      
+        if(old_password && !password){
+          throw new AppError ("Informe a nova senha para alterar.")
+        }  
 
-    const checkedPassword = await compare(old_password, user.password);
-
-    if(old_password && password){
-        if (!checkedPassword){
-        throw new AppError ("A senha atual não confere.")
+        if(old_password && password){
+          if (!checkedPassword){
+          throw new AppError ("A senha atual não confere.")
+          }
+          user.password = await hash(password, 3)
         }
-      user.password = await hash(password, 3)
-   }
+    }
 
     await database.run(`
       UPDATE users SET
@@ -60,7 +69,7 @@ class UsersController{
       email = ?,
       password = ?
       WHERE id = ?`,
-      [user.name, user.email, user.password, id]
+      [user.name, user.email, user.password, user_id]
       )
 
     return response.status(201).json();

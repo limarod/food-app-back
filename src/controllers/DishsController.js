@@ -1,5 +1,6 @@
 const AppError = require("../utils/AppError")
 const knex = require("../database/knex")
+const sqliteConnetion = require("../database/sqlite")
 
 class DishsController{
   async create (request, response){
@@ -26,17 +27,34 @@ class DishsController{
 
     const {id} = request.params;
 
+    // const database = await sqliteConnetion();
+
     const dish = await knex("dishs").where({id}).first();
-    // const tag = await knex("ingredients").where({dish_id: id})
 
     dish.name = name ?? dish.name
     dish.category = category ?? dish.category
     dish.description = description ?? dish.description
     dish.price = price ?? dish.price
-    //  tag.tags = ingredients ?? tag.tags
+    // dish.image_plate = image_plate ?? dish.image_plate
+
+
+    // const dish = await database.get("SELECT * FROM dishs WHERE id = (?)", [id])
+
+    // delete dish.id
 
     await knex("dishs").where({id}).update(dish)
-   // await knex ("ingredients").where({dish_id: id}).update(tag)
+
+    // updated_at = DATETIME('now')
+
+    // await database.run(`
+    //   UPDATE dishs SET
+    //   name = ?,
+    //   category = ?,
+    //   description = ?,
+    //   price = ?
+    //   WHERE id = ?`,
+    //   [dish.name, dish.category, dish.description, dish.price,  id ]
+    //   );
 
     return response.json()
   }

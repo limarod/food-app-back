@@ -10,14 +10,18 @@ class DishsController{
       name, category, description, price
     })
 
-    const ingredientsInsert = ingredients.map( tags => {
-      return {
-        dish_id,
-        tags
-      }
-    })
+    if(ingredients){
+      
+      const ingredientsInsert = ingredients.map( tags => {
+        return {
+          dish_id,
+          tags
+        }
+      })
+      await knex("ingredients").insert(ingredientsInsert)
+    }
 
-    await knex ("ingredients").insert(ingredientsInsert)
+ 
 
     return response.status(201).json()
   }

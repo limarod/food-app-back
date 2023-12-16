@@ -102,39 +102,56 @@ class DishsController{
     let dishs
 
 
-    
-
-    if(ingredients){
-      const filterIngredients = ingredients.split(',').map(ingredient => ingredient.trim());
-
-      dishs = await knex("ingredients")
-      .select("dishs.*")
-      // .whereIn("tags", filterIngredients)
-      .where((builder) => {
-        for (const ingredient of ingredients){
-          builder.orWhere( "tags", "like", `%${ingredient}`);
-        }})
-      .distinct("dishs.id", "dishs.name")
-      .innerJoin("dishs", "dishs.id", "ingredients.dish_id")
-      .orderBy("dishs.name")
-
-    // }else{
-    //   dishs = await knex("dishs")
-      // .whereLike("name", `%${name}%`)
-    //   .orderBy("name")
-    // }
-
-
-     
-    // return response.json(dishsWithIngredients)
-
-    } else if (name){
+    if (ingredients || name) {
       dishs = await knex("dishs")
-      .whereLike("name", `%${name}%`)
-      .orderBy("name")
-    } else{
-      dishs = await knex("dishs").orderBy("name")
-    }
+        .innerJoin("ingredients", "dishs.id", "ingredients.dish_id")
+        .select("dishs.*")
+        .modify((queryBuilder) => {
+          if (ingredients) {
+            const filterIngredients = ingredients
+              .split(",")
+              .map((ingredient) => ingredient.trim());
+
+              queryBuilder.where((builder) => {
+                for (const ingredient of filterIngredients) {
+                  builder.orWhere("ingredients.tags", "like", `%${ingredient}`);
+                }
+              });
+            }
+ 
+            if (name) {
+              queryBuilder.orWhere("dishs.name", "like", `%${name}%`);
+            }
+          })
+        .distinct("dishs.id", "dishs.name")
+        .orderBy("dishs.name");
+      
+      } else {
+        dishs = await knex("dishs").orderBy("dishs.name");
+      }
+
+    // if(ingredients){
+    //   const filterIngredients = ingredients.split(',').map(ingredient => ingredient.trim());
+
+    //   dishs = await knex("ingredients")
+    //   .select("dishs.*")
+    //   .where((builder) => {
+    //     for (const ingredient of filterIngredients){
+    //       builder.orWhere( "tags", "like", `%${ingredient}`);
+    //     }})
+    //   .distinct("dishs.id", "dishs.name")
+    //   .innerJoin("dishs", "dishs.id", "ingredients.dish_id")
+    //   .orderBy("dishs.name")
+
+
+
+    // } else if (name){
+    //   dishs = await knex("dishs")
+    //   .whereLike("name", `%${name}%`)
+    //   .orderBy("name")
+    // } else{
+    //   dishs = await knex("dishs").orderBy("name")
+    // }
 
      let dishsWithIngredients = await knex("ingredients")
        dishsWithIngredients = dishs.map(dish => {

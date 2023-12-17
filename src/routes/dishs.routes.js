@@ -22,7 +22,8 @@ dishsRoutes.get("/:id", dishsController.show)
 dishsRoutes.delete("/:id", dishsController.delete)
 dishsRoutes.get("/", dishsController.index)
 dishsRoutes.put("/:id", dishsController.update)
-dishsRoutes.patch("/dishImage/:id", upload.single("dishImage"), dishImageController.update )
+dishsRoutes.patch("/dishImage/:id", upload.single("dishImage"),  dishImageController.update)
+// dishImageController.update 
 // dishsRoutes.put("/:id", dishsController)
 
 

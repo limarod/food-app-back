@@ -1,5 +1,5 @@
 const DiskStorage = require("../providers/DiskStorage");
-const knex = require("knex");
+const knex = require("../database/knex");
 const AppError = require("../utils/AppError");
 const sqliteConnetion = require("../database/sqlite")
 
@@ -8,14 +8,17 @@ class DishImageController{
   async update(request, response){
     // const user_id = request.user.id;
     const {id} = request.params;
+    // const dishImageFilename = request.file;
     const dishImageFilename = request.file.filename;
 
+    if(!dishImageFilename){
+      throw new AppError("Arquivo de imagem não encontrado", 404)
+    }
+
     const diskStorage = new DiskStorage();
-    const database = await sqliteConnetion();
+    // const database = await sqliteConnetion();
 
-    // const dish = await knex("dishs").where({id}).first();
-    const dish = await database.get("SELECT * FROM dishs WHERE id = (?)", [id])
-
+    const dish = await knex("dishs").where({id}).first()
 
     if(!dish){
       throw new AppError("Prato não encontrado", 404)
@@ -30,16 +33,17 @@ class DishImageController{
 
     // const { id: _, ...dishToUpdate } = dish;
 
-    // await knex("dishs").where({id}).update(dish)
-
-    await database.run(
-      `UPDATE dishs SET
-      image_plate = ?
-      WHERE id = ?`,
-      [dish.image_plate, id ]
-    )
+    await knex("dishs").update(dish).where({id})
 
     return response.json(dish)
+
+    // await database.run(
+    //   `UPDATE dishs SET
+    //   image_plate = ?
+    //   WHERE id = ?`,
+    //   [dish.image_plate, id ]
+    // )
+
   }
 }
 

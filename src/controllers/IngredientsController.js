@@ -14,6 +14,17 @@ class IngredientsController{
 
     return response.json(ingredients)
   }
+
+
+  async delete(request, response){
+    const {id} = request.params
+
+    await knex("ingredients").where({id}).delete();
+
+    return response.json()
+
+  }
+
 }
 
 

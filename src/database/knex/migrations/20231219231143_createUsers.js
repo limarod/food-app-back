@@ -1,5 +1,5 @@
 
-exports.up = knex => knex.schema.createTable("users", table => {
+exports.up = knex => knex.schema.createTableIfNotExists("users", table => {
     table.increments("id");
     table.text("name").notNullable();
     table.text("email");
@@ -9,8 +9,8 @@ exports.up = knex => knex.schema.createTable("users", table => {
     table.enum("role", ["admin", "customer"], {useNative: true, enumName: "roles"})
     .notNullable().default("customer")
 
-    table.timestamp("created_at").default(knex.fn.now())
+    table.timestamp("created_at").defaultTo(knex.fn.now())
   })
   
-  exports.down = knex => schema.dropTable("users")
+  exports.down = knex => knex.schema.dropTable("users")
   

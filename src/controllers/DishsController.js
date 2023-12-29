@@ -1,14 +1,23 @@
 const AppError = require("../utils/AppError")
 const knex = require("../database/knex")
 const sqliteConnetion = require("../database/sqlite");
-const { diskStorage } = require("multer");
+const  DiskStorage = require("../providers/DiskStorage")
+
 
 class DishsController{
+  
   async create (request, response){
     const {name, category, description, price, ingredients} = request.body;
 
+    const imageDishFilename = request.file.filename;
+
+    const diskStorage = new DiskStorage()
+
+    const filename = await diskStorage.saveFile(imageDishFilename)
+
     const [dish_id] = await knex("dishs").insert({
-      name, category, description, price
+      name, category, description, price, 
+      image_plate: filename
     })
 
     if(ingredients){
@@ -31,6 +40,8 @@ class DishsController{
     const {name, category, description, price, ingredients} = request.body;
 
     const {id} = request.params;
+
+ 
 
     // const database = await sqliteConnetion();
 

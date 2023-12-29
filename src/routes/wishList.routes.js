@@ -8,6 +8,6 @@ const wishListRoutes = Router()
 
 const wishListController = new WishListController
 
-wishListRoutes.use("/", ensureAuthenticated, verifyUserAuthorization("customer"), wishListController.create )
+wishListRoutes.use("/:id", ensureAuthenticated, verifyUserAuthorization("customer"), wishListController.create )
 
 module.exports = wishListRoutes

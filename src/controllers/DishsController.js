@@ -9,16 +9,23 @@ class DishsController{
   async create (request, response){
     const {name, category, description, price, ingredients} = request.body;
 
-    const imageDishFilename = request.file.filename;
+    const imageDishFilename = request.file ?  request.file.filename : null;
 
     const diskStorage = new DiskStorage()
 
-    const filename = await diskStorage.saveFile(imageDishFilename)
+    const filename = imageDishFilename ?  await diskStorage.saveFile(imageDishFilename) : null
+
 
     const [dish_id] = await knex("dishs").insert({
-      name, category, description, price, 
+      name, category, description, price,
       image_plate: filename
     })
+
+    // if(filename){
+    //    await knex("dishs").insert({
+    //     image_plate: filename
+    //   })
+    // }
 
     if(ingredients){
       

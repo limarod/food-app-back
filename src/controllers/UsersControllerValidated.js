@@ -6,8 +6,6 @@ class UsersControllerValidated{
   async index(request, response){
     const {user} = request;
 
-  // const database = await sqliteConnection()
-  // const checkUserExist = await database.get("SELECT * FROM users WHERE (user) = (?)" , [user.id])
   const checkUserExist = await knex("users").where({id: user.id})
 
 

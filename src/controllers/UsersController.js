@@ -24,6 +24,7 @@ class UsersController{
     const {name, email, password, old_password} = request.body;
     const user_id = request.user.id;
 
+
     const database = await sqliteConnection()
     const user = await database.get("SELECT * FROM users WHERE (id) = (?)", [user_id])
 
@@ -32,6 +33,8 @@ class UsersController{
     }
 
     const userWithUpdatedEmail = await database.get("SELECT * FROM users WHERE (email) = (?)", [email])
+
+
 
 
     if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id ){

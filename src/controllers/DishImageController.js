@@ -32,6 +32,10 @@ class DishImageController{
 
     await knex("dishs").update(dish).where({id})
 
+    // await knex("dishs").where({id}).update({
+    //   image_plate: dish.image_plate
+    // });
+
     return response.json(dish)
 
   }

@@ -25,9 +25,7 @@ dishsRoutes.post("/", verifyUserAuthorization("admin"), upload.single("dishImage
 dishsRoutes.put("/:id", verifyUserAuthorization("admin"), dishsController.update)
 dishsRoutes.delete("/:id", verifyUserAuthorization("admin"), dishsController.delete)
 dishsRoutes.patch("/dishImage/:id", verifyUserAuthorization("admin"), upload.single("dishImage"),  dishImageController.update)
-// dishImageController.update 
-// dishsRoutes.put("/:id", dishsController)
-//dishImageController.create,
+
 
 
 module.exports = dishsRoutes

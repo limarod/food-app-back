@@ -11,6 +11,7 @@ const usersControllerValidated = new UsersControllerValidated()
 
 usersRoutes.post("/", usersController.create)
 usersRoutes.put("/", ensureAuthenticated, usersController.update)
+// usersRoutes.put("/",  usersController.update)
 usersRoutes.get("/validated", ensureAuthenticated, usersControllerValidated.index)
 
 

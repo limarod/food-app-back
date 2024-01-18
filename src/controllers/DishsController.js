@@ -21,12 +21,6 @@ class DishsController{
       image_plate: filename
     })
 
-    // if(filename){
-    //    await knex("dishs").insert({
-    //     image_plate: filename
-    //   })
-    // }
-
     if(ingredients){
       
       const ingredientsInsert = ingredients.map( tags => {
@@ -37,9 +31,7 @@ class DishsController{
       })
       await knex("ingredients").insert(ingredientsInsert)
     }
-
  
-
     return response.status(201).json()
   }
 
@@ -48,10 +40,6 @@ class DishsController{
 
     const {id} = request.params;
 
- 
-
-    // const database = await sqliteConnetion();
-
     const dish = await knex("dishs").where({id}).first();
 
     dish.name = name ?? dish.name
@@ -59,15 +47,6 @@ class DishsController{
     dish.description = description ?? dish.description
     dish.price = price ?? dish.price
     
-    // dish.image_plate = image_plate ?? dish.image_plate
-
-
-    // const dish = await database.get("SELECT * FROM dishs WHERE id = (?)", [id])
-
-    // delete dish.id
-    // await knex("ingredients")
-    // .insert(ingredients.map(ingredient => ({tags:ingredient.tag || "", dish_id:id})))
-
     if(ingredients){
       const ingredientsInsert = ingredients.map( tags => {
         return {
@@ -79,18 +58,6 @@ class DishsController{
     }
 
     await knex("dishs").where({id}).update(dish)
-
-    // updated_at = DATETIME('now')
-
-    // await database.run(`
-    //   UPDATE dishs SET
-    //   name = ?,
-    //   category = ?,
-    //   description = ?,
-    //   price = ?
-    //   WHERE id = ?`,
-    //   [dish.name, dish.category, dish.description, dish.price,  id ]
-    //   );
 
     return response.json()
   }
@@ -147,29 +114,6 @@ class DishsController{
       } else {
         dishs = await knex("dishs").orderBy("dishs.name");
       }
-
-    // if(ingredients){
-    //   const filterIngredients = ingredients.split(',').map(ingredient => ingredient.trim());
-
-    //   dishs = await knex("ingredients")
-    //   .select("dishs.*")
-    //   .where((builder) => {
-    //     for (const ingredient of filterIngredients){
-    //       builder.orWhere( "tags", "like", `%${ingredient}`);
-    //     }})
-    //   .distinct("dishs.id", "dishs.name")
-    //   .innerJoin("dishs", "dishs.id", "ingredients.dish_id")
-    //   .orderBy("dishs.name")
-
-
-
-    // } else if (name){
-    //   dishs = await knex("dishs")
-    //   .whereLike("name", `%${name}%`)
-    //   .orderBy("name")
-    // } else{
-    //   dishs = await knex("dishs").orderBy("name")
-    // }
 
      let dishsWithIngredients = await knex("ingredients")
        dishsWithIngredients = dishs.map(dish => {

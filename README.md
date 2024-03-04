@@ -1,44 +1,59 @@
-Projeto Food Explorer API
+# Food Explorer API
+O Food Explorer é um aplicativo de pedidos de comida desenvolvido como parte do curso Explorer da Rocketseat.
 
-O Food Explorer representa a conclusão do curso Explorer da Rocketseat, sendo um aplicativo de pedidos de comida que pode ser utilizado em um restaurante.
+# Funcionalidades Principais:
+- Cadastro e login com autenticação por tokens.
+- Adição de itens ao pedido com quantidades desejadas.
+- Opção de favoritar pratos e lista de favoritos.
+- Inclusão de itens no carrinho.
+- Finalização do pedido com simulação de pagamento.
 
-O projeto engloba várias funcionalidades, como cadastro e login com autenticação por tokens, capacidade de adicionar itens ao pedido com quantidades desejadas, opção de favoritar pratos, bem como uma lista de favoritos, incluir itens no carrinho e a finalização do pedido com uma simulação de pagamento (a funcionalidade de pagamento é apenas ilustrativa). 
+# Tipos de Usuários:
+O sistema possui dois tipos de usuários:
+- Administrador (role: admin)
+- Usuário Comum (role: customer)
 
-Importante destacar que o sistema conta com dois tipos de usuários: o administrador (admin) e o usuário comum (custumer), cada um com permissões específicas e acesso a recursos distintos.
+O administrador pode adicionar, editar e excluir pratos, além de atualizar o status dos pedidos.
 
-O administrador tem a capacidade de adicionar novos pratos, editar os existentes ou excluí-los, além disso, é responsável por atualizar o status dos pedidos, desde a confirmação e entrega.
+# Tecnologias Utilizadas:
+- Node.js
+- Express
+- Knex
+- SQLITE
 
-Tecnologias e principais bibliotecas utilizadas incluem: 
-Node.js, Express, Knex, SQLITE.
-
-Execução:
+# Execução do Projeto
 
 clonar projeto em:
-  git https://github.com/limarod/food-app-back
+  [https://github.com/limarod/food-app-back](git https://github.com/limarod/food-app-back)
 
-  no terminal:
-
-Instalar dependências:
-    npm install
-
-Aplicar as migrations:
-    npx knex migrate:latest
-
-Iniciar o servidor:
+1. Instalar dependências:
+```bash
+npm install
+```
+2. Aplicar as migrations:
+```bash
+npx knex migrate:latest
+```
+3. Iniciar o servidor:
+```bash
     npm run dev
-
-Servidor vai inicializar em:
+```
+4. Servidor vai inicializar em:
     http://localhost:3333
 
-
-Utilizar uma API client como postman ou insomnia para cadastrar um user ADMIN enviando objeto JSON com a role 'admin' , ou
+# Cadastro de usuários
+Utilizar uma API client (como postman ou insomnia) para cadastrar um user ADMIN enviando objeto JSON com a role 'admin' , ou
 utilizar um gerenciador database como SQL Server ou Beekeeper Studio para alteração da role manualmente.
 
 O cadastro de usuários na interface se dará apenas para users comuns (Customer).
 
+Exemplo de cadastro user 'Admin'
+
+```json
 {
 	"name": "xxxx",
 	"email": "xxxx@email.com",
 	"password": "xxxx",
 	"role": "admin"
 }
+```

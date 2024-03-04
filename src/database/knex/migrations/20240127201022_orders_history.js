@@ -5,7 +5,12 @@ exports.up = knex => knex.schema.createTable("orders_history", table =>{
     table.text("name");
     table.integer("quantity").notNullable();
     table.decimal("total_price", 10, 2).notNullable();
-    table.timestamp("created_at").defaultTo(knex.fn.now())
+
+
+
+    table.timestamp("created_at").defaultTo(knex.fn.now('localtime'))
+
+
 });
   
   

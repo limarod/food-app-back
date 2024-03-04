@@ -9,7 +9,7 @@ exports.up = knex => knex.schema.createTableIfNotExists("users", table => {
     table.enum("role", ["admin", "customer"], {useNative: true, enumName: "roles"})
     .notNullable().default("customer")
 
-    table.timestamp("created_at").defaultTo(knex.fn.now())
+    table.timestamp("created_at").defaultTo(knex.fn.now('localtime'))
   })
   
   exports.down = knex => knex.schema.dropTable("users")

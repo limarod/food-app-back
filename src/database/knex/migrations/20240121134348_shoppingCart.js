@@ -5,7 +5,7 @@ exports.up = knex => knex.schema.createTable("shoppingCart", table =>{
     table.text("name");
     table.decimal("price");
     table.integer("quantity").defaultTo(1);
-    table.timestamp("created_at").default(knex.fn.now());
+    table.timestamp("created_at").default(knex.fn.now('localtime'));
   });
   
   

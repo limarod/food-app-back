@@ -86,10 +86,10 @@ class DishsController{
     const {ingredients, name} = request.query
     let dishs
 
-
+   
     if (ingredients || name) {
       dishs = await knex("dishs")
-        .innerJoin("ingredients", "dishs.id", "ingredients.dish_id")
+        .leftJoin("ingredients", "dishs.id", "ingredients.dish_id")
         .select("dishs.*")
         .modify((queryBuilder) => {
           if (ingredients) {

@@ -8,6 +8,7 @@ const ordersHistoryController = new OrdersHistoryController();
 
 ordersHistoryRoutes.post("/", ensureAuthenticated, ordersHistoryController.create);
 ordersHistoryRoutes.get("/", ensureAuthenticated, ordersHistoryController.index);
+// ordersHistoryRoutes.get("/", ensureAuthenticated, ordersHistoryController.index);
 
 
 module.exports = ordersHistoryRoutes;

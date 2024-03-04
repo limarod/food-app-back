@@ -4,7 +4,7 @@ const {hash, compare} = require ("bcryptjs")
 
 class UsersController{
   async create(request, response){
-    const {name, email, password} = request.body;
+    const {name, email, password, role} = request.body;
 
   const database = await sqliteConnection()
   const checkUserExist = await database.get("SELECT * FROM users WHERE (email) = (?)" , [email])
@@ -15,7 +15,9 @@ class UsersController{
 
   const hashedPassword =  await hash(password, 3)
 
-  await database.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, hashedPassword] )
+  const userRole = role || 'customer';
+
+  await database.run("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)", [name, email, hashedPassword, userRole] )
 
   return response.status(201).json();
 }
@@ -33,9 +35,6 @@ class UsersController{
     }
 
     const userWithUpdatedEmail = await database.get("SELECT * FROM users WHERE (email) = (?)", [email])
-
-
-
 
     if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id ){
       throw new AppError ("Este email já está cadastrado")

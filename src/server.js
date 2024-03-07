@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
   // origin: ["http://localhost:5173", "http://127.0.0.1:5173/", "https://stately-florentine-a13244.netlify.app"],
-  origin: ["*", "https://stately-florentine-a13244.netlify.app"],
+  origin: ["*", "https://visionary-maamoul-16218e.netlify.app"],
   credentials: true
 }));
 

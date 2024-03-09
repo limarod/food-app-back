@@ -45,6 +45,10 @@ npx knex migrate:latest
 Utilizar uma API client (como postman ou insomnia) para cadastrar um user ADMIN enviando objeto JSON com a role 'admin' , ou
 utilizar um gerenciador database como SQL Server ou Beekeeper Studio para alteração da role manualmente.
 
+Foi inserido um user com role 'admin' no projeto publicado para teste:
+Email = rodrigo@email.com
+Senha = 1
+
 O cadastro de usuários na interface se dará apenas para users comuns (Customer).
 
 Exemplo de cadastro user 'Admin'
